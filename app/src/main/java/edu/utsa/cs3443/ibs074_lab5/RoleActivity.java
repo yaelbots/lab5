@@ -1,17 +1,12 @@
 package edu.utsa.cs3443.ibs074_lab5;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class RoleActivity extends AppCompatActivity {
 
@@ -20,20 +15,27 @@ public class RoleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_role);
 
-        // Example data - replace with actual data
-        String userName = "John Doe";
-        String[] roles = {"Role 1", "Role 2"};
+        // Retrieve user's real name and roles from intent extras
+        String realName = getIntent().getStringExtra("real_name");
+        String[] roles = getIntent().getStringArrayExtra("roles");
 
-        // Display user name and roles
-        TextView userNameTextView = findViewById(R.id.userNameTextView);
-        userNameTextView.setText(userName);
+        // Check if realName or roles is null
+        if (realName != null && roles != null) {
+            // Display user's real name and roles
+            TextView userNameTextView = findViewById(R.id.userNameTextView);
+            userNameTextView.setText(realName);
 
-        TextView rolesTextView = findViewById(R.id.rolesTextView);
-        StringBuilder rolesText = new StringBuilder();
-        for (String role : roles) {
-            rolesText.append(role).append("\n");
+            TextView rolesTextView = findViewById(R.id.rolesTextView);
+            StringBuilder rolesText = new StringBuilder();
+            for (String role : roles) {
+                rolesText.append(role).append("\n");
+            }
+            rolesTextView.setText(rolesText);
+        } else {
+            // Handle null values
+            Toast.makeText(this, "Error: Intent extras are null", Toast.LENGTH_SHORT).show();
+            finish(); // Finish the activity to prevent further issues
         }
-        rolesTextView.setText(rolesText);
 
         // Initialize logout button
         Button logoutButton = findViewById(R.id.logoutButton);

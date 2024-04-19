@@ -1,21 +1,15 @@
 package edu.utsa.cs3443.ibs074_lab5;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.content.Intent;
 import android.widget.EditText;
 import android.widget.Toast;
-
-
+import androidx.appcompat.app.AppCompatActivity;
 import edu.utsa.cs3443.ibs074_lab5.model.User;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,10 +39,16 @@ public class MainActivity extends AppCompatActivity {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        // Validate user credentials
-        if (User.validate(username, password)) {
-            // Successful login, navigate to RoleActivity
+        // Validate user credentials and fetch user details including roles
+        User user = User.validateAndGetUser(getApplicationContext(), username, password);
+        if (user != null) {
+            // Retrieve roles from user object
+            List<String> rolesList = user.getRoles();
+            String[] roles = rolesList.toArray(new String[0]);
+            // Successful login, navigate to RoleActivity with real name and roles
             Intent intent = new Intent(MainActivity.this, RoleActivity.class);
+            intent.putExtra("real_name", user.getRealName());
+            intent.putExtra("roles", roles);
             startActivity(intent);
         } else {
             // Invalid credentials, show toast message
