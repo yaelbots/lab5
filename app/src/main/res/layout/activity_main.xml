@@ -3,29 +3,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="top">
 
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:src="@drawable/broadway" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter your username:"
+        android:textSize="25sp"
+        android:layout_marginTop="200dp"
+        android:layout_gravity="center" />
 
     <EditText
         android:id="@+id/usernameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
         android:hint="Username"
-        android:inputType="text"/>
+        android:inputType="text"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Passphrase:"
+        android:textSize="25sp"
+        android:layout_gravity="center"/>
 
     <EditText
         android:id="@+id/passwordEditText"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:layout_gravity="center"/>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"/>
+        android:layout_marginTop="120dp">
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:layout_marginTop="16dp"/>
+        <Button
+            android:id="@+id/loginButton"
+            android:text="Login"
+            android:layout_gravity="center"
+            android:layout_width="150dp"
+            android:layout_height="60dp"/>
+
+    </FrameLayout>
 
 </LinearLayout>

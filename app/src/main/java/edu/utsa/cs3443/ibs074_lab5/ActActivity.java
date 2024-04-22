@@ -23,4 +23,5 @@ public class ActActivity extends AppCompatActivity {
         TextView actNumberTextView = findViewById(R.id.actNumberTextView);
         actNumberTextView.setText("Act " + actNumber);
     }
+
 }

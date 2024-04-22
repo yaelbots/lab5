@@ -45,10 +45,11 @@ public class MainActivity extends AppCompatActivity {
             // Retrieve roles from user object
             List<String> rolesList = user.getRoles();
             String[] roles = rolesList.toArray(new String[0]);
-            // Successful login, navigate to RoleActivity with real name and roles
+            // Successful login, navigate to RoleActivity with real name, roles, and username
             Intent intent = new Intent(MainActivity.this, RoleActivity.class);
             intent.putExtra("real_name", user.getRealName());
             intent.putExtra("roles", roles);
+            intent.putExtra("username", username); // Add this line
             startActivity(intent);
         } else {
             // Invalid credentials, show toast message
