@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.utsa.cs3443.ibs074_lab5.model.User;
+
 public class RoleActivity extends AppCompatActivity {
 
     private Map<String, List<String>> userRoles = new HashMap<>();
@@ -31,13 +33,15 @@ public class RoleActivity extends AppCompatActivity {
         Button act2Button = findViewById(R.id.act2Button);
         Button logoutButton = findViewById(R.id.logoutButton);
 
+        String username = getIntent().getStringExtra("username");
+
         // Set the onClickListener for each button
         act1Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Code to execute when the Act I button is clicked
-                // For example, start a new Activity
-                Intent intent = new Intent(RoleActivity.this, Act1Activity.class);
+                Intent intent = new Intent(RoleActivity.this, ActActivity.class);
+                intent.putExtra("act_number", 1);
+                intent.putExtra("username", username); // pass the username
                 startActivity(intent);
             }
         });
@@ -47,7 +51,8 @@ public class RoleActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Code to execute when the Act II button is clicked
                 // For example, start a new Activity
-                Intent intent = new Intent(RoleActivity.this, Act2Activity.class);
+                Intent intent = new Intent(RoleActivity.this, ActActivity.class);
+                intent.putExtra("act_number", 2);
                 startActivity(intent);
             }
         });
@@ -57,14 +62,22 @@ public class RoleActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Code to execute when the Logout button is clicked
                 // For example, return to the login screen
-                Intent intent = new Intent(RoleActivity.this, LoginActivity.class);
+                Intent intent = new Intent(RoleActivity.this, MainActivity.class);
                 startActivity(intent);
-                finish();
+                finish(); // Finish the current activity
             }
         });
 
         // Retrieve user's username from intent extras
-        String username = getIntent().getStringExtra("username");
+
+
+        // Fetch the user's real name using the User class
+        User user = User.fetchUserFromDatabaseOrFile(this, username);
+        String realName = user != null ? user.getRealName() : "Unknown";
+
+        // Find the TextView and set its text to the real name
+        TextView userNameTextView = findViewById(R.id.userNameTextView);
+        userNameTextView.setText(realName);
 
         // Display user's roles
         if (userRoles.containsKey(username)) {
@@ -76,7 +89,6 @@ public class RoleActivity extends AppCompatActivity {
                 rolesLinearLayout.addView(roleTextView);
             }
         } else {
-            // Handle case where user has no roles
             Toast.makeText(this, "Error: User has no roles", Toast.LENGTH_SHORT).show();
         }
     }
@@ -88,7 +100,7 @@ public class RoleActivity extends AppCompatActivity {
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
                 if (values.length >= 4) {
-                    String username = values[1]; // Use the second column as the username
+                    String username = values[0]; // Use the first column as the username
                     List<String> roles = new ArrayList<>();
                     for (int i = 3; i < values.length; i++) {
                         roles.add(values[i]);

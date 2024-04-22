@@ -12,10 +12,12 @@ public class Act {
         this.actNumber = actNumber;
         this.scenes = new ArrayList<>();
     }
+
     public void addScene(Scene scene) {
         this.scenes.add(scene);
     }
-    // Getter
+
+    // Getters
     public int getActNumber() {
         return actNumber;
     }

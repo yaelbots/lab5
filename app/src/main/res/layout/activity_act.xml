@@ -13,6 +13,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" />
 
-    <!-- Add your views for displaying scenes here -->
+    <LinearLayout
+        android:id="@+id/rolesLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/actNumberTextView"
+        android:layout_marginTop="16dp" />
 
 </RelativeLayout>

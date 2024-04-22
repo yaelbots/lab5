@@ -25,7 +25,6 @@
         android:layout_height="wrap_content"
         android:text="User Name"
         android:textSize="20sp"
-
         android:layout_gravity="center"
         android:layout_marginBottom="16dp"/>
 
@@ -43,40 +42,8 @@
         android:orientation="vertical"
         android:layout_gravity="center">
 
-        <TextView
-            android:id="@+id/role1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Role 1"
-            android:textSize="20sp"/>
+        <!-- Dynamically added TextViews for displaying roles -->
 
-        <TextView
-            android:id="@+id/role2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Role 2"
-            android:textSize="20sp"/>
-
-        <TextView
-            android:id="@+id/role3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Role 3"
-            android:textSize="20sp"/>
-
-        <TextView
-            android:id="@+id/role4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Role 4"
-            android:textSize="20sp"/>
-
-        <TextView
-            android:id="@+id/role5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Role 5"
-            android:textSize="20sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -85,20 +52,20 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_gravity="bottom"
-        android:layout_marginTop="180dp">
+        android:layout_marginTop="280dp">
 
         <Button
             android:id="@+id/act1Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="View Act I"
+            android:text="Act I"
             android:layout_marginEnd="8dp"/>
 
         <Button
             android:id="@+id/act2Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="View Act II"
+            android:text="Act II"
             android:layout_marginEnd="8dp"/>
 
         <Button
@@ -106,6 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Logout"/>
+
     </LinearLayout>
 
 </LinearLayout>
