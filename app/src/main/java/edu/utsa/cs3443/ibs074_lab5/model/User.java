@@ -32,13 +32,18 @@ public class User {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length >= 4 && parts[0].equals(username)) {
+                String[] parts = line.split(",", 4); // Split into 4 parts: username, password, real name, roles
+                if (parts.length == 4 && parts[0].equals(username)) {
+                    String[] roles = parts[3].split(","); // Split the roles by comma
+                    List<String> userRoles = new ArrayList<>();
+                    for (String role : roles) {
+                        userRoles.add(role.trim());
+                    }
                     User user = new User();
                     user.setUsername(parts[0]);
                     user.setPassword(parts[1]);
                     user.setRealName(parts[2]);
-                    user.setRoles(Arrays.asList(parts[3].split("\\s*,\\s*")));
+                    user.setRoles(userRoles);
                     return user;
                 }
             }

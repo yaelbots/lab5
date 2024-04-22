@@ -4,22 +4,28 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import edu.utsa.cs3443.ibs074_lab5.model.Role;
-import edu.utsa.cs3443.ibs074_lab5.model.Scene;
+import java.util.Map;
+
 import edu.utsa.cs3443.ibs074_lab5.model.User;
 
 public class ActActivity extends AppCompatActivity {
 
-    public List<Scene> loadScenesFromAsset(String filename, List<String> userRoles) {
-        List<Scene> scenesWithUserRoles = new ArrayList<>();
+
+
+    public Map<String, List<String>> loadScenesFromAsset(String filename) {
+        Map<String, List<String>> scenes = new HashMap<>();
         try {
+            Log.d("ActActivity", "Loading scenes from file: " + filename);
             InputStream inputStream = getAssets().open(filename);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
@@ -28,31 +34,24 @@ public class ActActivity extends AppCompatActivity {
                 if (parts.length == 2) {
                     String title = parts[0].trim();
                     String[] roleNames = parts[1].split(",");
-                    List<Role> roles = new ArrayList<>();
+                    List<String> roles = new ArrayList<>();
                     for (String roleName : roleNames) {
-                        roleName = roleName.trim();
-                        final String finalRoleName = roleName; // Declare a final variable
-                        // Modify to check if the user roles contain the role name without character name
-                        if (userRoles.stream().anyMatch(userRole -> userRole.contains(finalRoleName))) {
-                            roles.add(new Role(roleName));
-                        }
+                        roles.add(roleName.trim());
                     }
-                    if (!roles.isEmpty()) {
-                        scenesWithUserRoles.add(new Scene(title, roles));
-                    }
+                    scenes.put(title, roles);
                 }
             }
             reader.close();
         } catch (IOException e) {
+            Log.e("ActActivity", "Error loading scenes from file: " + e.getMessage());
             e.printStackTrace();
         }
-        return scenesWithUserRoles;
+
+        // Log the loaded scenes
+        Log.d("ActActivity", "Loaded scenes: " + scenes);
+
+        return scenes;
     }
-
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +59,8 @@ public class ActActivity extends AppCompatActivity {
         setContentView(R.layout.activity_act);
 
         int actNumber = getIntent().getIntExtra("act_number", 1);
+        Log.d("ActActivity", "Act number: " + actNumber); // Log the act number
+
         String username = getIntent().getStringExtra("username"); // get the username
 
         TextView actNumberTextView = findViewById(R.id.actNumberTextView);
@@ -67,34 +68,44 @@ public class ActActivity extends AppCompatActivity {
 
         // Fetch the user's roles using the User class
         User user = User.fetchUserFromDatabaseOrFile(this, username);
-        List<String> userRoles = user != null ? user.getRoles() : new ArrayList<>();
+        List<String> userRoles = new ArrayList<>();
+        if (user != null) {
+            for (String role : user.getRoles()) {
+                // Split the roles by comma and trim the spaces
+                String[] roles = role.split(",");
+                for (String roleName : roles) {
+                    // Extract the part in parentheses
+                    int startIndex = roleName.indexOf('(');
+                    int endIndex = roleName.indexOf(')');
+                    if (startIndex != -1 && endIndex != -1) {
+                        userRoles.add(roleName.substring(startIndex + 1, endIndex).trim());
+                    }
+                }
+            }
+        }
 
-        Log.d("ActActivity", "Username: " + username);
-        Log.d("ActActivity", "User roles: " + userRoles);
+        // Log the user's roles
+        Log.d("ActActivity", "User's roles: " + userRoles);
 
         // Load the scenes for the act
-        List<Scene> scenesWithUserRoles = loadScenesFromAsset("act" + actNumber + ".txt", userRoles);
+        Map<String, List<String>> scenes = loadScenesFromAsset("act" + actNumber + ".txt");
+        Log.d("ActActivity", "Number of scenes: " + scenes.size()); // Log the number of scenes
 
-        Log.d("ActActivity", "Scenes with user roles: " + scenesWithUserRoles.size());
-
-        // Display scenes with roles
+        // Display user's roles
         LinearLayout rolesLinearLayout = findViewById(R.id.rolesLinearLayout);
-        for (Scene scene : scenesWithUserRoles) {
-            Log.d("ActActivity", "Scene: " + scene.getTitle());
-            TextView sceneTextView = new TextView(this);
-            sceneTextView.setText(scene.getTitle());
-            sceneTextView.setTextSize(20);
-            rolesLinearLayout.addView(sceneTextView);
-
-            for (Role role : scene.getRoles()) {
-                Log.d("ActActivity", "Role: " + role.getRoleName());
-                TextView roleTextView = new TextView(this);
-                roleTextView.setText(role.getRoleName());
-                roleTextView.setTextSize(16); // adjust size as needed
-                rolesLinearLayout.addView(roleTextView);
+        for (Map.Entry<String, List<String>> entry : scenes.entrySet()) {
+            List<String> matchingRoles = new ArrayList<>();
+            for (String role : entry.getValue()) {
+                if (userRoles.contains(role)) {
+                    matchingRoles.add(role);
+                }
+            }
+            if (!matchingRoles.isEmpty()) {
+                TextView sceneTextView = new TextView(this);
+                sceneTextView.setText(entry.getKey() + ": " + matchingRoles);
+                sceneTextView.setTextSize(20);
+                rolesLinearLayout.addView(sceneTextView);
             }
         }
     }
-
-
 }

@@ -53,6 +53,7 @@ public class RoleActivity extends AppCompatActivity {
                 // For example, start a new Activity
                 Intent intent = new Intent(RoleActivity.this, ActActivity.class);
                 intent.putExtra("act_number", 2);
+                intent.putExtra("username", username); // pass the username
                 startActivity(intent);
             }
         });
@@ -67,9 +68,6 @@ public class RoleActivity extends AppCompatActivity {
                 finish(); // Finish the current activity
             }
         });
-
-        // Retrieve user's username from intent extras
-
 
         // Fetch the user's real name using the User class
         User user = User.fetchUserFromDatabaseOrFile(this, username);
