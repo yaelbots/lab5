@@ -1,19 +1,37 @@
 package edu.utsa.cs3443.ibs074_lab5.model;
 
+/**
+ * The Role class represents a role in a scene or act.
+ * @author Yael Reyes ibs074
+ */
 public class Role {
+    // The name of the role
     private String roleName;
 
-    // Constructor
+    /**
+     * Constructor for creating a Role instance with a specified role name.
+     *
+     * @param roleName The name of the role.
+     */
     public Role(String roleName) {
         this.roleName = roleName;
     }
 
-    // Getter
+    /**
+     * Gets the name of the role.
+     *
+     * @return The name of the role.
+     */
     public String getRoleName() {
         return roleName;
     }
 
-    // Override equals method
+    /**
+     * Overrides the equals method to compare roles based on their names.
+     *
+     * @param obj The object to compare with.
+     * @return True if the roles are equal (have the same name), false otherwise.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -22,13 +40,21 @@ public class Role {
         return roleName.equals(role.roleName);
     }
 
-    // Override hashCode method
+    /**
+     * Overrides the hashCode method to generate a hash code based on the role's name.
+     *
+     * @return The hash code of the role.
+     */
     @Override
     public int hashCode() {
         return roleName.hashCode();
     }
 
-    // Override toString method
+    /**
+     * Overrides the toString method to provide a string representation of the role.
+     *
+     * @return A string representation of the role.
+     */
     @Override
     public String toString() {
         return "Role{" +

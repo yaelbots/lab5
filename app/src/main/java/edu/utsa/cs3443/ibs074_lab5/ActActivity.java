@@ -18,10 +18,18 @@ import java.util.Map;
 
 import edu.utsa.cs3443.ibs074_lab5.model.User;
 
+/**
+ * Activity to display scenes of a particular act based on user's roles.
+ * @author Yael Reyes ibs074
+ */
 public class ActActivity extends AppCompatActivity {
 
-
-
+    /**
+     * Loads scenes from the asset file.
+     *
+     * @param filename The name of the asset file containing scenes.
+     * @return A map containing scene titles as keys and their corresponding roles as values.
+     */
     public Map<String, List<String>> loadScenesFromAsset(String filename) {
         Map<String, List<String>> scenes = new HashMap<>();
         try {

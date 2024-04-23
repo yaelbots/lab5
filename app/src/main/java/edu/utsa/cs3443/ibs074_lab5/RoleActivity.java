@@ -18,10 +18,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import edu.utsa.cs3443.ibs074_lab5.model.User;
 
+/**
+ * The RoleActivity class represents the activity where the user can select an act to view their roles.
+ * @author Yael Reyes ibs074
+ */
 public class RoleActivity extends AppCompatActivity {
 
+    // A map to store the roles of each user
     private Map<String, List<String>> userRoles = new HashMap<>();
 
+    /**
+     * Called when the activity is starting.
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle). Note: Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +58,6 @@ public class RoleActivity extends AppCompatActivity {
         act2Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Code to execute when the Act II button is clicked
-                // For example, start a new Activity
                 Intent intent = new Intent(RoleActivity.this, ActActivity.class);
                 intent.putExtra("act_number", 2);
                 intent.putExtra("username", username); // pass the username
@@ -61,8 +68,6 @@ public class RoleActivity extends AppCompatActivity {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Code to execute when the Logout button is clicked
-                // For example, return to the login screen
                 Intent intent = new Intent(RoleActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish(); // Finish the current activity
@@ -91,6 +96,9 @@ public class RoleActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Loads the roles of each user from a CSV file.
+     */
     private void loadRoles() {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(getAssets().open("users.csv")));

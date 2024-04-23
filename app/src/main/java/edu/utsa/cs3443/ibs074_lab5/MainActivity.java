@@ -6,10 +6,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import edu.utsa.cs3443.ibs074_lab5.model.User;
+
 import java.util.List;
 
+/**
+ * The main activity for user login.
+ * @author Yael Reyes ibs074
+ */
 public class MainActivity extends AppCompatActivity {
 
     private EditText usernameEditText;
@@ -32,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Attempts to log in the user.
+     * Validates the entered username and password.
+     * If successful, starts the RoleActivity.
+     * Otherwise, displays an error message.
+     */
     private void login() {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
